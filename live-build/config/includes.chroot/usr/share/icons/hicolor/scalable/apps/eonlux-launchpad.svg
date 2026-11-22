@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+  <defs>
+    <radialGradient id="eonluxOrb" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#061830" stop-opacity="0.96" />
+      <stop offset="100%" stop-color="#020B18" stop-opacity="0.98" />
+    </radialGradient>
+  </defs>
+  <circle cx="15" cy="15" r="14" fill="url(#eonluxOrb)" stroke="#29C5FF" stroke-width="1.2" stroke-opacity="0.65" />
+  <ellipse cx="15" cy="15" rx="11.2" ry="6.2" transform="rotate(-24 15 15)" fill="none" stroke="#29C5FF" stroke-width="0.9" stroke-opacity="0.45" />
+  
+  <rect x="8.2" y="8.2" width="3.6" height="3.6" rx="1" fill="#29C5FF" />
+  <rect x="13.2" y="8.2" width="3.6" height="3.6" rx="1" fill="#0066CC" />
+  <rect x="18.2" y="8.2" width="3.6" height="3.6" rx="1" fill="#084C7F" />
+  <rect x="8.2" y="13.2" width="3.6" height="3.6" rx="1" fill="#084C7F" />
+  <rect x="13.2" y="13.2" width="3.6" height="3.6" rx="1" fill="#E6F4FF" />
+  <rect x="18.2" y="13.2" width="3.6" height="3.6" rx="1" fill="#29C5FF" />
+  <rect x="8.2" y="18.2" width="3.6" height="3.6" rx="1" fill="#0066CC" />
+  <rect x="13.2" y="18.2" width="3.6" height="3.6" rx="1" fill="#29C5FF" />
+  <rect x="18.2" y="18.2" width="3.6" height="3.6" rx="1" fill="#0066CC" />
+</svg>
