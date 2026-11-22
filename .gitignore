@@ -1,0 +1,65 @@
+# ==============================================================================
+# EonLux Legacy - .gitignore específico para Debian live-build
+# ==============================================================================
+
+# --- Diretórios temporários e de compilação do live-build ---
+live-build/.build/
+live-build/binary/
+live-build/cache/
+live-build/chroot/
+live-build/local/
+live-build/scratch/
+live-build/tftpboot/
+live-build/source/
+
+# Caso os comandos lb sejam executados na raiz do repositório
+.build/
+binary/
+cache/
+chroot/
+local/
+scratch/
+tftpboot/
+source/
+
+# --- Imagens geradas, logs de build e checksums locais ---
+*.iso
+*.img
+*.hybrid.iso
+*.tar.gz
+*.tar.xz
+*.squashfs
+*.contents
+*.files
+*.list
+*.packages
+build.log
+binary.log
+chroot.log
+
+# --- Diretórios de ambiente Python (apps exclusivos) ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+env/
+
+# --- Arquivos temporários de sistema e editores ---
+.DS_Store
+Thumbs.db
+*~
+*.swp
+*.swo
+*.bak
+*.tmp
+.vscode/
+.idea/
+
+# --- Mantém diretórios vazios essenciais do live-build no Git ---
+!live-build/config/**/.gitkeep
+!live-build/config/hooks/**
+!live-build/config/includes.chroot/**
+!live-build/config/package-lists/**
