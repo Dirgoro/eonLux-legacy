@@ -14,6 +14,7 @@ gvfs
 gvfs-backends
 xarchiver
 p7zip-full
+unrar
 unzip
 zip
 xz-utils
