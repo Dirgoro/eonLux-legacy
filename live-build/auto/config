@@ -14,8 +14,6 @@ lb config noauto \
   --parent-mirror-chroot-security "http://security.debian.org/debian-security" \
   --parent-mirror-binary "http://deb.debian.org/debian/" \
   --parent-mirror-binary-security "http://security.debian.org/debian-security" \
-  --updates true \
-  --security true \
   --bootloader "grub-pc" \
   --binary-images iso-hybrid \
   --iso-application "EonLux Legacy" \
