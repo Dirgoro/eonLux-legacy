@@ -1,0 +1,158 @@
+#!/bin/bash
+set -e
+
+THEME_XFWM="/usr/share/themes/EonLux-Dark/xfwm4"
+mkdir -p "$THEME_XFWM"
+
+# Função para desenhar botão circular 18x18 em XPM (sem dependências externas)
+generate_circle_xpm() {
+  local filepath="$1"
+  local fill_hex="$2"
+  local ring_hex="$3"
+
+  cat > "$filepath" <<EOF
+/* XPM */
+static char * button_xpm[] = {
+"18 18 4 1",
+" 	c None",
+".	c #061830",
+"+	c ${ring_hex}",
+"@	c ${fill_hex}",
+".................. ",
+".....++++++++.....",
+"...++@@@@@@@@++...",
+"..+@@@@@@@@@@@@+..",
+".+@@@@@@@@@@@@@@+.",
+".+@@@@@@@@@@@@@@+.",
+"+@@@@@@@@@@@@@@@@+",
+"+@@@@@@@@@@@@@@@@+",
+"+@@@@@@@@@@@@@@@@+",
+"+@@@@@@@@@@@@@@@@+",
+"+@@@@@@@@@@@@@@@@+",
+"+@@@@@@@@@@@@@@@@+",
+".+@@@@@@@@@@@@@@+.",
+".+@@@@@@@@@@@@@@+.",
+"..+@@@@@@@@@@@@+..",
+"...++@@@@@@@@++...",
+".....++++++++.....",
+".................. "
+};
+EOF
+}
+
+# Tom 1: Fechar (#29C5FF)
+generate_circle_xpm "$THEME_XFWM/close-active.xpm" "#29C5FF" "#7CE0FF"
+generate_circle_xpm "$THEME_XFWM/close-prelight.xpm" "#5CD6FF" "#B8EEFF"
+generate_circle_xpm "$THEME_XFWM/close-pressed.xpm" "#1AA3D8" "#29C5FF"
+generate_circle_xpm "$THEME_XFWM/close-inactive.xpm" "#0D3B5E" "#165380"
+
+# Tom 2: Maximizar (#0066CC)
+generate_circle_xpm "$THEME_XFWM/maximize-active.xpm" "#0066CC" "#338CE6"
+generate_circle_xpm "$THEME_XFWM/maximize-prelight.xpm" "#1A7FE6" "#66B0FF"
+generate_circle_xpm "$THEME_XFWM/maximize-pressed.xpm" "#004D99" "#0066CC"
+generate_circle_xpm "$THEME_XFWM/maximize-inactive.xpm" "#0B3057" "#134578"
+cp "$THEME_XFWM/maximize-active.xpm" "$THEME_XFWM/maximize-toggled-active.xpm"
+cp "$THEME_XFWM/maximize-prelight.xpm" "$THEME_XFWM/maximize-toggled-prelight.xpm"
+cp "$THEME_XFWM/maximize-pressed.xpm" "$THEME_XFWM/maximize-toggled-pressed.xpm"
+cp "$THEME_XFWM/maximize-inactive.xpm" "$THEME_XFWM/maximize-toggled-inactive.xpm"
+
+# Tom 3: Minimizar (#084C7F)
+generate_circle_xpm "$THEME_XFWM/hide-active.xpm" "#084C7F" "#186BA8"
+generate_circle_xpm "$THEME_XFWM/hide-prelight.xpm" "#0E66A8" "#338CD1"
+generate_circle_xpm "$THEME_XFWM/hide-pressed.xpm" "#05375C" "#084C7F"
+generate_circle_xpm "$THEME_XFWM/hide-inactive.xpm" "#082640" "#0F385C"
+
+# Barras de título e bordas do XFWM4
+for part in title-1 title-2 title-3 title-4 title-5; do
+  cat > "$THEME_XFWM/${part}-active.xpm" <<'EOF'
+/* XPM */
+static char * title_xpm[] = {
+"2 30 2 1",
+".	c #061830",
+"+	c #0D355E",
+"++",
+"..",
+"..",
+"..",
+"..",
+"..",
+"..",
+"..",
+"..",
+"..",
+"..",
+"..",
+"..",
+"..",
+"..",
+"..",
+"..",
+"..",
+"..",
+"..",
+"..",
+"..",
+"..",
+"..",
+"..",
+"..",
+"..",
+"..",
+"..",
+".."
+};
+EOF
+  cp "$THEME_XFWM/${part}-active.xpm" "$THEME_XFWM/${part}-inactive.xpm"
+done
+
+for side in left right; do
+  cat > "$THEME_XFWM/${side}-active.xpm" <<'EOF'
+/* XPM */
+static char * border_xpm[] = {
+"1 2 1 1",
+".	c #144B7A",
+".",
+"."
+};
+EOF
+  cp "$THEME_XFWM/${side}-active.xpm" "$THEME_XFWM/${side}-inactive.xpm"
+done
+
+cat > "$THEME_XFWM/bottom-active.xpm" <<'EOF'
+/* XPM */
+static char * bottom_xpm[] = {
+"2 1 1 1",
+".	c #144B7A",
+".."
+};
+EOF
+cp "$THEME_XFWM/bottom-active.xpm" "$THEME_XFWM/bottom-inactive.xpm"
+cp "$THEME_XFWM/bottom-active.xpm" "$THEME_XFWM/bottom-left-active.xpm"
+cp "$THEME_XFWM/bottom-active.xpm" "$THEME_XFWM/bottom-left-inactive.xpm"
+cp "$THEME_XFWM/bottom-active.xpm" "$THEME_XFWM/bottom-right-active.xpm"
+cp "$THEME_XFWM/bottom-active.xpm" "$THEME_XFWM/bottom-right-inactive.xpm"
+cp "$THEME_XFWM/title-1-active.xpm" "$THEME_XFWM/top-left-active.xpm"
+cp "$THEME_XFWM/title-1-active.xpm" "$THEME_XFWM/top-left-inactive.xpm"
+cp "$THEME_XFWM/title-1-active.xpm" "$THEME_XFWM/top-right-active.xpm"
+cp "$THEME_XFWM/title-1-active.xpm" "$THEME_XFWM/top-right-inactive.xpm"
+
+# Garantir diretório de wallpapers e vincular como padrão do Debian/XFCE
+mkdir -p /usr/share/backgrounds/eonlux
+if [ -f /usr/share/backgrounds/eonlux/eonlux-wallpaper-1.jpg ]; then
+  ln -sf /usr/share/backgrounds/eonlux/eonlux-wallpaper-1.jpg /usr/share/images/desktop-base/default || true
+fi
+
+# Criar lançadores oficiais da Dock Central (Painel 3)
+mkdir -p /etc/xdg/xfce4/panel/launcher-301 \
+         /etc/xdg/xfce4/panel/launcher-302 \
+         /etc/xdg/xfce4/panel/launcher-303 \
+         /etc/xdg/xfce4/panel/launcher-304 \
+         /etc/xdg/xfce4/panel/launcher-305
+
+cp /usr/share/applications/thunar.desktop /etc/xdg/xfce4/panel/launcher-301/thunar.desktop
+cp /usr/share/applications/firefox-esr.desktop /etc/xdg/xfce4/panel/launcher-302/firefox-esr.desktop
+cp /usr/share/applications/org.xfce.ristretto.desktop /etc/xdg/xfce4/panel/launcher-303/ristretto.desktop 2>/dev/null || \
+  cp /usr/share/applications/ristretto.desktop /etc/xdg/xfce4/panel/launcher-303/ristretto.desktop
+cp /usr/share/applications/xfce4-screenshooter.desktop /etc/xdg/xfce4/panel/launcher-304/xfce4-screenshooter.desktop
+cp /usr/share/applications/org.xfce.mousepad.desktop /etc/xdg/xfce4/panel/launcher-305/mousepad.desktop 2>/dev/null || \
+  cp /usr/share/applications/mousepad.desktop /etc/xdg/xfce4/panel/launcher-305/mousepad.desktop
