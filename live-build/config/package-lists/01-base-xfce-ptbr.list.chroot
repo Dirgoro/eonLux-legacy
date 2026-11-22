@@ -4,7 +4,8 @@ live-config-systemd
 systemd-sysv
 locales
 locales-all
-task-pt-br-desktop
+task-brazilian-portuguese
+task-brazilian-portuguese-desktop
 xfce4
 xfce4-goodies
 xfce4-power-manager
