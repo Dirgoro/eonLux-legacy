@@ -8,12 +8,12 @@ on:
         required: true
         default: 'v0.2-alpha'
       iso_compression:
-        description: 'Compressão SquashFS (zstd = rápido/equilibrado, xz = menor tamanho)'
+        description: 'Compressão SquashFS (gzip = rápido, xz = menor tamanho)'
         required: true
-        default: 'zstd'
+        default: 'gzip'
         type: choice
         options:
-          - zstd
+          - gzip
           - xz
   push:
     tags:
@@ -29,6 +29,9 @@ jobs:
     container:
       image: debian:trixie
       options: --privileged
+    defaults:
+      run:
+        shell: bash
 
     steps:
       - name: Checkout do repositório
@@ -61,7 +64,6 @@ jobs:
             grub-efi-amd64-bin \
             mtools \
             dosfstools \
-            zstd \
             xz-utils \
             ca-certificates
 
@@ -81,7 +83,7 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: |
           rm -rf config/build config/bootstrap config/chroot config/binary config/source config/common
-          ./auto/config --compression "${{ github.event.inputs.iso_compression || 'zstd' }}"
+          ./auto/config --compression "${{ github.event.inputs.iso_compression || 'gzip' }}"
           if ! ./auto/build; then
             echo "=== RESUMO DE ERROS DO APT/LIVE-BUILD ==="
             grep -E "^(E:|Err:|dpkg: error)" build*.log | tail -n 30 || true
