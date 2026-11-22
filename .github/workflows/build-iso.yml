@@ -34,6 +34,7 @@ jobs:
             grub-pc-bin \
             grub-efi-amd64-bin \
             mtools \
+            dosfstools \
             ca-certificates
 
       - name: Preparar permissões dos scripts do live-build
