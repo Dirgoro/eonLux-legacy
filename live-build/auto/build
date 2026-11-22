@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+LOG_FILE="build-$(date +%Y%m%d-%H%M%S).log"
+lb build "$@" 2>&1 | tee "${LOG_FILE}"
