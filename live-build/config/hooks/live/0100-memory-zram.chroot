@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cat <<'EOF' > /etc/systemd/system/eonlux-zram.service
+[Unit]
+Description=EonLux Legacy Dynamic ZRAM (75% RAM, LZ4, Priority 100)
+After=local-fs.target
+DefaultDependencies=no
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/sh -c '
+  modprobe zram num_devices=1
+  total_kb=$(awk "/MemTotal:/ {print \$2}" /proc/meminfo)
+  zram_bytes=$(( total_kb * 1024 * 75 / 100 ))
+  echo lz4 > /sys/block/zram0/comp_algorithm || echo lzo > /sys/block/zram0/comp_algorithm
+  echo "${zram_bytes}" > /sys/block/zram0/disksize
+  mkswap /dev/zram0 >/dev/null
+  swapon -p 100 /dev/zram0
+'
+ExecStop=/bin/sh -c '
+  swapoff /dev/zram0 2>/dev/null || true
+  echo 1 > /sys/block/zram0/reset 2>/dev/null || true
+'
+
+[Install]
+WantedBy=swap.target
+EOF
+
+cat <<'EOF' > /etc/systemd/system/eonlux-swapfile.service
+[Unit]
+Description=EonLux Legacy 4GB Swapfile Activation (Priority 10)
+After=local-fs.target
+ConditionPathExists=/swapfile
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/sh -c '
+  chmod 0600 /swapfile
+  swapon -p 10 /swapfile 2>/dev/null || true
+'
+ExecStop=/bin/sh -c '
+  swapoff /swapfile 2>/dev/null || true
+'
+
+[Install]
+WantedBy=swap.target
+EOF
+
+systemctl enable eonlux-zram.service eonlux-swapfile.service
+systemctl enable earlyoom.service
