@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+lb clean --purge "$@"
+rm -f build-*.log
