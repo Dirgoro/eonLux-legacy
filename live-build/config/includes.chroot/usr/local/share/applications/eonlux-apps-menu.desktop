@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=EonLux Legacy
+Comment=Aplicações exclusivas do EonLux Legacy
+Exec=xfce4-appfinder
+Icon=/usr/local/share/eonlux/assets/logo.png
+Terminal=false
+Categories=System;
