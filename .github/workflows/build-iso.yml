@@ -33,10 +33,11 @@ jobs:
             mtools \
             ca-certificates
 
-      - name: Preparar permissões dos scripts do live-build
+      - name: Preparar permissões e limpar qualquer referência a trixie/updates
         run: |
           chmod +x live-build/auto/config live-build/auto/build live-build/auto/clean
           find live-build/config/hooks -type f -exec chmod +x {} +
+          grep -rn "trixie/updates" live-build/config/ || true
 
       - name: Configurar e compilar a ISO via live-build
         working-directory: live-build
