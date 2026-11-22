@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SERVICES_TO_DISABLE=(
+  tracker-miner-fs-3.service
+  cups.service
+  cups-browsed.service
+  avahi-daemon.service
+  ModemManager.service
+  apt-daily.timer
+  apt-daily-upgrade.timer
+)
+
+for unit in "${SERVICES_TO_DISABLE[@]}"; do
+  systemctl disable "${unit}" 2>/dev/null || true
+  systemctl mask "${unit}" 2>/dev/null || true
+done
