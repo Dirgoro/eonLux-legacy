@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Inicialização de Perfil EonLux Legacy
+Exec=/usr/local/bin/eonlux-user-init
+OnlyShowIn=XFCE;
+NoDisplay=true
