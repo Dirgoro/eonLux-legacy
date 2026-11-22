@@ -20,25 +20,30 @@ window,
   color: @text_primary;
 }
 
-/* Barra de menu (corrige Arquivo Editar Ver Ir Marcadores Ajuda colados) */
+/* Barra de menu (corrige Arquivo Editar Ver Ir Marcadores Ajuda colados no GTK 3.24) */
 menubar,
 .menubar {
   background-color: @bg_elevated;
   color: @text_primary;
   border-bottom: 1px solid @border_subtle;
-  padding: 2px 6px;
+  padding: 3px 8px;
 }
 
-menubar > menuitem,
-.menubar > menuitem {
-  padding: 5px 11px;
-  margin: 0 2px;
+menubar menuitem,
+.menubar menuitem {
+  padding: 5px 12px;
+  margin: 0 3px;
   border-radius: 6px;
   color: @text_primary;
 }
 
-menubar > menuitem:hover,
-.menubar > menuitem:hover {
+menubar menuitem label,
+.menubar menuitem label {
+  padding: 0 4px;
+}
+
+menubar menuitem:hover,
+.menubar menuitem:hover {
   background-color: rgba(41, 197, 255, 0.18);
   color: #FFFFFF;
 }
@@ -159,7 +164,7 @@ entry:focus {
 #XfcePanelWindow.panel-3,
 #XfcePanelWindow.panel-4 {
   border-radius: 14px;
-  border: 1px solid rgba(41, 197, 255, 0.30);
+  border: 1px solid rgba(41, 197, 255, 0.32);
 }
 
 .xfce4-panel button {
