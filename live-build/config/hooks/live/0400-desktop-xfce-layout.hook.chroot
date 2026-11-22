@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -e
+
+mkdir -p /etc/skel/.config/gtk-3.0
+cat <<'EOF' > /etc/skel/.config/gtk-3.0/settings.ini
+[Settings]
+gtk-theme-name=EonLux-Legacy
+gtk-icon-theme-name=Tango
+gtk-font-name=Inter 10
+gtk-cursor-theme-name=Adwaita
+gtk-xft-antialias=1
+gtk-xft-rgba=rgb
+EOF
+
+mkdir -p /etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
+cat <<'EOF' > /etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<channel name="xfwm4" version="1.0">
+  <property name="general" type="empty">
+    <property name="theme" type="string" value="EonLux-Legacy"/>
+    <property name="button_layout" type="string" value="O|MHC"/>
+    <property name="use_compositing" type="bool" value="true"/>
+    <property name="title_alignment" type="string" value="left"/>
+  </property>
+</channel>
+EOF
+
+cat <<'EOF' > /etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfdesktop.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<channel name="xfdesktop" version="1.0">
+  <property name="backdrop" type="empty">
+    <property name="screen0" type="empty">
+      <property name="monitor0" type="empty">
+        <property name="workspace0" type="empty">
+          <property name="last-image" type="string" value="/usr/local/share/eonlux/assets/eonlux-wallpaper-1.jpg"/>
+          <property name="image-style" type="int" value="5"/>
+        </property>
+      </property>
+    </property>
+  </property>
+</channel>
+EOF
+
+chmod +x /usr/local/bin/eonlux-launchpad 2>/dev/null || true
