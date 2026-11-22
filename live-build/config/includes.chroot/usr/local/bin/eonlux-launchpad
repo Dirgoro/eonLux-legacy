@@ -1,0 +1,195 @@
+#!/usr/bin/env python3
+"""EonLux Legacy Launchpad - Lançador leve em GTK3."""
+
+import gi
+import os
+import subprocess
+
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gtk, GdkPixbuf, GLib
+
+
+class EonLuxLaunchpad(Gtk.Window):
+    def __init__(self):
+        super().__init__(title="EonLux Legacy — Launchpad")
+        self.set_default_size(760, 480)
+        self.set_position(Gtk.WindowPosition.CENTER)
+        self.set_border_width(16)
+        self.connect("key-press-event", self._on_key_press)
+
+        self.apps = self._load_applications()
+
+        root_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        self.add(root_box)
+
+        header_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        root_box.pack_start(header_box, False, False, 0)
+
+        title_label = Gtk.Label()
+        title_label.set_markup("<b>EonLux Legacy</b> <span foreground='#8AB4D8'>• Aplicativos</span>")
+        title_label.set_xalign(0.0)
+        header_box.pack_start(title_label, True, True, 0)
+
+        self.search_entry = Gtk.SearchEntry()
+        self.search_entry.set_placeholder_text("Buscar aplicativo...")
+        self.search_entry.connect("search-changed", self._on_search_changed)
+        header_box.pack_end(self.search_entry, False, False, 0)
+
+        scroller = Gtk.ScrolledWindow()
+        scroller.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        root_box.pack_start(scroller, True, True, 0)
+
+        self.flowbox = Gtk.FlowBox()
+        self.flowbox.set_valign(Gtk.Align.START)
+        self.flowbox.set_max_children_per_line(6)
+        self.flowbox.set_min_children_per_line(3)
+        self.flowbox.set_selection_mode(Gtk.SelectionMode.NONE)
+        self.flowbox.set_row_spacing(12)
+        self.flowbox.set_column_spacing(12)
+        scroller.add(self.flowbox)
+
+        self._populate_apps("")
+
+    def _load_applications(self):
+        app_dirs = [
+            "/usr/local/share/applications",
+            "/usr/share/applications",
+            os.path.expanduser("~/.local/share/applications"),
+        ]
+        found = {}
+
+        for directory in app_dirs:
+            if not os.path.isdir(directory):
+                continue
+            for filename in sorted(os.listdir(directory)):
+                if not filename.endswith(".desktop"):
+                    continue
+                filepath = os.path.join(directory, filename)
+                entry = self._parse_desktop_file(filepath)
+                if entry and entry["name"] and entry["exec"]:
+                    found[entry["name"].lower()] = entry
+
+        return sorted(found.values(), key=lambda item: item["name"].lower())
+
+    def _parse_desktop_file(self, filepath):
+        name = ""
+        exec_cmd = ""
+        icon = "application-x-executable"
+        no_display = False
+        in_desktop_entry = False
+
+        try:
+            with open(filepath, "r", encoding="utf-8", errors="ignore") as handle:
+                for raw_line in handle:
+                    line = raw_line.strip()
+                    if not line or line.startswith("#"):
+                        continue
+                    if line.startswith("[") and line.endswith("]"):
+                        in_desktop_entry = (line == "[Desktop Entry]")
+                        continue
+                    if not in_desktop_entry or "=" not in line:
+                        continue
+                    key, value = line.split("=", 1)
+                    key = key.strip()
+                    value = value.strip()
+                    if key == "Name" and not name:
+                        name = value
+                    elif key == "Exec" and not exec_cmd:
+                        exec_cmd = value
+                    elif key == "Icon" and value:
+                        icon = value
+                    elif key == "NoDisplay" and value.lower() == "true":
+                        no_display = True
+        except OSError:
+            return None
+
+        if no_display:
+            return None
+
+        # Remove códigos de campo do padrão .desktop (%f, %F, %u, %U, etc.)
+        cleaned_tokens = [
+            token for token in exec_cmd.split()
+            if not (token.startswith("%") and len(token) == 2)
+        ]
+        cleaned_exec = " ".join(cleaned_tokens)
+        return {"name": name, "exec": cleaned_exec, "icon": icon}
+
+    def _load_icon_image(self, icon_name, size=36):
+        try:
+            if os.path.isabs(icon_name) and os.path.exists(icon_name):
+                pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(icon_name, size, size, True)
+                return Gtk.Image.new_from_pixbuf(pixbuf)
+            theme = Gtk.IconTheme.get_default()
+            pixbuf = theme.load_icon(icon_name, size, Gtk.IconLookupFlags.FORCE_SIZE)
+            return Gtk.Image.new_from_pixbuf(pixbuf)
+        except Exception:
+            return Gtk.Image.new_from_icon_name("application-x-executable", Gtk.IconSize.DND)
+
+    def _populate_apps(self, query):
+        for child in self.flowbox.get_children():
+            self.flowbox.remove(child)
+
+        needle = query.strip().lower()
+        for app in self.apps:
+            if needle and needle not in app["name"].lower():
+                continue
+
+            btn = Gtk.Button()
+            btn.set_relief(Gtk.ReliefStyle.NONE)
+            btn.connect("clicked", self._on_launch_app, app["exec"])
+
+            box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+            box.set_size_request(105, 88)
+
+            img = self._load_icon_image(app["icon"], size=34)
+            lbl = Gtk.Label(label=app["name"])
+            lbl.set_max_width_chars(14)
+            lbl.set_ellipsize(3)  # Pango.EllipsizeMode.END
+            lbl.set_justify(Gtk.Justification.CENTER)
+
+            box.pack_start(img, False, False, 0)
+            box.pack_start(lbl, False, False, 0)
+            btn.add(box)
+            self.flowbox.add(btn)
+
+        self.flowbox.show_all()
+
+    def _on_search_changed(self, entry):
+        self._populate_apps(entry.get_text())
+
+    def _on_launch_app(self, _button, command):
+        try:
+            subprocess.Popen(["/bin/sh", "-c", command], start_new_session=True)
+        except Exception as err:
+            dialog = Gtk.MessageDialog(
+                transient_for=self,
+                flags=0,
+                message_type=Gtk.MessageType.ERROR,
+                buttons=Gtk.ButtonsType.OK,
+                text="Não foi possível iniciar o aplicativo",
+            )
+            dialog.format_secondary_text(str(err))
+            dialog.run()
+            dialog.destroy()
+            return
+        GLib.idle_add(Gtk.main_quit)
+
+    def _on_key_press(self, _widget, event):
+        if event.keyval == GdkPixbuf.Gdk.KEY_Escape if hasattr(GdkPixbuf, "Gdk") else False:
+            Gtk.main_quit()
+            return True
+        if event.keyval == 65307:  # Escape
+            Gtk.main_quit()
+            return True
+        return False
+
+
+def main():
+    win = EonLuxLaunchpad()
+    win.connect("destroy", Gtk.main_quit)
+    win.show_all()
+    Gtk.main()
+
+
+if __name__ == "__main__":
+    main()
