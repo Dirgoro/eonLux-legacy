@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=EonLux-Legacy
+Comment=Tema oficial escuro translúcido do EonLux Legacy
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=EonLux-Legacy
+MetacityTheme=EonLux-Legacy
+IconTheme=Papirus-Dark
+CursorTheme=Adwaita
+ButtonLayout=:close,maximize,minimize
