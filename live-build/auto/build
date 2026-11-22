@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-LOG_FILE="build-$(date +%Y%m%d-%H%M%S).log"
-lb build noauto "${@}" 2>&1 | tee "${LOG_FILE}"
+{
+  lb bootstrap "${@}"
+  lb chroot "${@}"
+  lb installer "${@}"
+
+  mkdir -p binary/live
+  cp -fv chroot/boot/vmlinuz-* binary/live/
+  cp -fv chroot/boot/initrd.img-* binary/live/
+
+  lb binary "${@}"
+} 2>&1 | tee build.log
