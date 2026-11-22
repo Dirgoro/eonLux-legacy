@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+chmod +x /usr/local/bin/eonlux-cloud-mount
+gtk-update-icon-cache -f -t /usr/share/icons/hicolor || true
+fc-cache -f || true
+
+XFWM_DIR="/usr/share/themes/EonLux-Legacy/xfwm4"
+mkdir -p "${XFWM_DIR}"
+
+generate_circle_xpm() {
+  local filename="$1"
+  local color="$2"
+  cat > "${XFWM_DIR}/${filename}" <<EOF
+/* XPM */
+static char * btn_xpm[] = {
+"16 24 3 1",
+" 	c None",
+".	c #061830",
+"+	c ${color}",
+"................",
+"................",
+"................",
+"................",
+"......++++......",
+"....++++++++....",
+"...++++++++++...",
+"...++++++++++...",
+"..++++++++++++..",
+"..++++++++++++..",
+"..++++++++++++..",
+"..++++++++++++..",
+"..++++++++++++..",
+"..++++++++++++..",
+"...++++++++++...",
+"...++++++++++...",
+"....++++++++....",
+"......++++......",
+"................",
+"................",
+"................",
+"................",
+"................",
+"................"};
+EOF
+}
+
+# Tom 1: Fechar (#29C5FF)
+generate_circle_xpm "close-active.xpm" "#29C5FF"
+generate_circle_xpm "close-inactive.xpm" "#1E88B5"
+generate_circle_xpm "close-prelight.xpm" "#66D9FF"
+generate_circle_xpm "close-pressed.xpm" "#0099CC"
+
+# Tom 2: Maximizar (#0066CC)
+generate_circle_xpm "maximize-active.xpm" "#0066CC"
+generate_circle_xpm "maximize-inactive.xpm" "#06498C"
+generate_circle_xpm "maximize-prelight.xpm" "#338CE6"
+generate_circle_xpm "maximize-pressed.xpm" "#004C99"
+cp -f "${XFWM_DIR}/maximize-active.xpm" "${XFWM_DIR}/maximize-toggled-active.xpm"
+cp -f "${XFWM_DIR}/maximize-inactive.xpm" "${XFWM_DIR}/maximize-toggled-inactive.xpm"
+cp -f "${XFWM_DIR}/maximize-prelight.xpm" "${XFWM_DIR}/maximize-toggled-prelight.xpm"
+cp -f "${XFWM_DIR}/maximize-pressed.xpm" "${XFWM_DIR}/maximize-toggled-pressed.xpm"
+
+# Tom 3: Minimizar (#084C7F)
+generate_circle_xpm "hide-active.xpm" "#084C7F"
+generate_circle_xpm "hide-inactive.xpm" "#053357"
+generate_circle_xpm "hide-prelight.xpm" "#196BA8"
+generate_circle_xpm "hide-pressed.xpm" "#042845"
+
+mkdir -p /etc/skel/.config/gtk-3.0 /etc/skel/Nuvem
+cat > /etc/skel/.config/gtk-3.0/bookmarks <<'EOF'
+file:///home/user/Nuvem/Google%20Drive Google Drive (Nuvem)
+file:///home/user/Nuvem/OneDrive OneDrive (Nuvem)
+EOF
