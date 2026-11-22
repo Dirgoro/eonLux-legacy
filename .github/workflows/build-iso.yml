@@ -19,9 +19,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Instalar live-build e ferramentas de imagem
+        env:
+          DEBIAN_FRONTEND: noninteractive
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
+          sudo -E apt-get install -y --no-install-recommends \
             live-build \
             debootstrap \
             squashfs-tools \
@@ -38,12 +40,23 @@ jobs:
 
       - name: Configurar e compilar a ISO via live-build
         working-directory: live-build
+        env:
+          DEBIAN_FRONTEND: noninteractive
         run: |
           ./auto/config
-          sudo ./auto/build
+          sudo -E ./auto/build
 
       - name: Gerar SHA256 da ISO
         run: |
           ISO_FILE=$(find live-build -maxdepth 1 -name "*.iso" | head -n 1)
           test -n "${ISO_FILE}"
           sha256sum "${ISO_FILE}" | tee live-build/SHA256SUMS.txt
+
+      - name: Publicar ISO e SHA256 como artefatos da build
+        uses: actions/upload-artifact@v4
+        with:
+          name: eonlux-legacy-${{ inputs.release_tag }}
+          path: |
+            live-build/*.iso
+            live-build/SHA256SUMS.txt
+          retention-days: 7
