@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Launchpad
+Comment=Abrir lançador de aplicativos EonLux Legacy
+Exec=/usr/local/bin/eonlux-launchpad
+Icon=/usr/local/share/eonlux/assets/eonlux-launchpad.svg
+Terminal=false
+Categories=System;
