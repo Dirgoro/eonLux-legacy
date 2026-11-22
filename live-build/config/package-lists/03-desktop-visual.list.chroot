@@ -5,6 +5,7 @@ xfce4-pulseaudio-plugin
 xfce4-power-manager
 xfce4-screenshooter
 xfce4-notifyd
+xfce-polkit
 lightdm
 lightdm-gtk-greeter
 thunar
@@ -30,5 +31,3 @@ fonts-noto-ui-core
 fonts-noto-color-emoji
 papirus-icon-theme
 librsvg2-common
-gtk2-engines-murrine
-policykit-1-gnome
