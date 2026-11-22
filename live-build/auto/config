@@ -1,25 +1,26 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -e
 
 lb config noauto \
   --mode debian \
-  --architectures amd64 \
   --distribution trixie \
-  --linux-flavours "amd64" \
-  --linux-packages "none" \
-  --debian-installer none \
   --archive-areas "main contrib non-free non-free-firmware" \
-  --parent-mirror-bootstrap "http://deb.debian.org/debian/" \
-  --parent-mirror-chroot "http://deb.debian.org/debian/" \
-  --parent-mirror-binary "http://deb.debian.org/debian/" \
-  --bootloaders "grub-pc grub-efi" \
+  --architectures amd64 \
+  --linux-flavours amd64 \
+  --bootloaders "syslinux,grub-efi" \
   --binary-images iso-hybrid \
-  --iso-application "EonLux Legacy" \
-  --iso-preparer "EonLux Project (https://github.com/Dirgoro/eonLux-legacy)" \
-  --iso-publisher "EonLux Legacy" \
-  --iso-volume "EONLUX_LEGACY" \
+  --debian-installer none \
+  --security true \
+  --updates true \
+  --mirror-bootstrap "http://deb.debian.org/debian/" \
+  --mirror-chroot "http://deb.debian.org/debian/" \
+  --mirror-chroot-security "http://security.debian.org/debian-security/" \
+  --mirror-binary "http://deb.debian.org/debian/" \
+  --mirror-binary-security "http://security.debian.org/debian-security/" \
+  --apt-recommends false \
   --memtest none \
-  --apt-indices false \
-  --apt-recommends true \
-  --bootappend-live "boot=live components locales=pt_BR.UTF-8 keyboard-layouts=br quiet splash" \
+  --win32-loader false \
+  --iso-application "EonLux Legacy" \
+  --iso-publisher "EonLux Legacy Project" \
+  --iso-volume "EONLUX_LEGACY" \
   "${@}"
