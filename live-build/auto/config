@@ -20,7 +20,7 @@ lb config noauto \
   --iso-publisher "EonLux Legacy" \
   --iso-volume "EONLUX_LEGACY" \
   --memtest none \
-  --apt-indices true \
+  --apt-indices false \
   --apt-recommends true \
   --bootappend-live "boot=live components locales=pt_BR.UTF-8 keyboard-layouts=br quiet splash" \
   "${@}"
