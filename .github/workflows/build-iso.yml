@@ -44,7 +44,11 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: |
           ./auto/config
-          sudo -E ./auto/build
+          if ! sudo -E ./auto/build; then
+            echo "=== RESUMO DE ERROS DO APT/LIVE-BUILD ==="
+            grep -E "^(E:|Err:|dpkg: error)" build-*.log | tail -n 30 || true
+            exit 1
+          fi
 
       - name: Gerar SHA256 da ISO
         run: |
