@@ -1,195 +1,161 @@
-@define-color eon_bg_base rgba(2, 11, 24, 0.88);
-@define-color eon_bg_solid #020B18;
-@define-color eon_header rgba(6, 24, 48, 0.92);
-@define-color eon_blue_1 #29C5FF;
-@define-color eon_blue_2 #0066CC;
-@define-color eon_blue_3 #084C7F;
-@define-color eon_fg_main #E6F4FF;
-@define-color eon_fg_muted #8AB4D8;
-@define-color eon_border rgba(41, 197, 255, 0.24);
+/* EonLux Legacy - Tema GTK3 (v0.2-alpha)
+   Paleta base: #020B18 / #061830 | Texto: #E6F4FF / #8AB4D8
+   3 tons de azul: #29C5FF, #0066CC, #084C7F
+*/
+
+@define-color bg_dark #020B18;
+@define-color bg_panel #061830;
+@define-color fg_primary #E6F4FF;
+@define-color fg_secondary #8AB4D8;
+@define-color accent_light #29C5FF;
+@define-color accent_mid #0066CC;
+@define-color accent_dark #084C7F;
+@define-color border_subtle rgba(41, 197, 255, 0.24);
 
 * {
   font-family: "Inter", "Noto Sans", sans-serif;
-  outline-color: @eon_blue_1;
 }
 
 window,
-dialog,
 .background {
-  background-color: @eon_bg_base;
-  color: @eon_fg_main;
+  background-color: rgba(2, 11, 24, 0.90);
+  color: @fg_primary;
 }
 
-headerbar {
-  background-color: @eon_header;
-  border-bottom: 1px solid @eon_border;
-  color: @eon_fg_main;
-  min-height: 34px;
-  padding: 0 8px;
+headerbar,
+.titlebar {
+  background-color: rgba(6, 24, 48, 0.94);
+  color: @fg_primary;
+  border-bottom: 1px solid @border_subtle;
 }
 
-headerbar button.titlebutton {
+/* Ordem visual da esquerda para a direita:
+   1. Minimizar (#084C7F)
+   2. Maximizar (#0066CC)
+   3. Fechar (#29C5FF)
+*/
+button.titlebutton.minimize,
+.titlebar button.titlebutton.minimize,
+headerbar button.titlebutton.minimize {
+  background-color: #084C7F;
+  background-image: none;
+  color: #E6F4FF;
+  border: 1px solid rgba(230, 244, 255, 0.25);
+  border-radius: 999px;
   min-width: 14px;
   min-height: 14px;
   padding: 0;
-  margin: 0 4px;
-  border-radius: 999px;
-  border: none;
-  color: transparent;
-  box-shadow: none;
+  margin: 0 3px;
 }
 
-headerbar button.titlebutton.close { background-color: @eon_blue_1; }
-headerbar button.titlebutton.close:hover { background-color: #5CE0FF; }
+button.titlebutton.maximize,
+.titlebar button.titlebutton.maximize,
+headerbar button.titlebutton.maximize {
+  background-color: #0066CC;
+  background-image: none;
+  color: #E6F4FF;
+  border: 1px solid rgba(230, 244, 255, 0.25);
+  border-radius: 999px;
+  min-width: 14px;
+  min-height: 14px;
+  padding: 0;
+  margin: 0 3px;
+}
 
-headerbar button.titlebutton.maximize { background-color: @eon_blue_2; }
-headerbar button.titlebutton.maximize:hover { background-color: #1A7FE6; }
+button.titlebutton.close,
+.titlebar button.titlebutton.close,
+headerbar button.titlebutton.close {
+  background-color: #29C5FF;
+  background-image: none;
+  color: #020B18;
+  border: 1px solid rgba(230, 244, 255, 0.35);
+  border-radius: 999px;
+  min-width: 14px;
+  min-height: 14px;
+  padding: 0;
+  margin: 0 3px;
+}
 
-headerbar button.titlebutton.minimize { background-color: @eon_blue_3; }
-headerbar button.titlebutton.minimize:hover { background-color: #0D66AA; }
+button.titlebutton.minimize:hover {
+  background-color: #0c63a6;
+}
 
-button {
+button.titlebutton.maximize:hover {
+  background-color: #0077ee;
+}
+
+button.titlebutton.close:hover {
+  background-color: #56d2ff;
+}
+
+/* Barra superior fixa translúcida */
+xfce4-panel#XfcePanelWindow-1 {
+  background-color: rgba(2, 11, 24, 0.85);
+  border-bottom: 1px solid rgba(41, 197, 255, 0.24);
+  color: #E6F4FF;
+}
+
+/* 3 Ilhas inferiores com ocultação inteligente e visual translúcido */
+xfce4-panel#XfcePanelWindow-2,
+xfce4-panel#XfcePanelWindow-3,
+xfce4-panel#XfcePanelWindow-4 {
   background-color: rgba(6, 24, 48, 0.90);
-  color: @eon_fg_main;
-  border: 1px solid @eon_border;
+  border: 1px solid rgba(41, 197, 255, 0.24);
+  border-radius: 14px;
+  padding: 2px 10px;
+  color: #E6F4FF;
+}
+
+xfce4-panel button {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  color: #E6F4FF;
+  padding: 2px 4px;
+}
+
+xfce4-panel button:hover {
+  background-color: rgba(41, 197, 255, 0.14);
+  border-radius: 10px;
+}
+
+xfce4-panel button image {
+  min-width: 30px;
+  min-height: 30px;
+}
+
+/* Botões e entradas padrão */
+button {
+  background-color: #061830;
+  color: #E6F4FF;
+  border: 1px solid rgba(41, 197, 255, 0.24);
   border-radius: 8px;
-  padding: 5px 12px;
+  padding: 6px 12px;
 }
 
 button:hover {
-  background-color: rgba(8, 76, 127, 0.65);
-  border-color: @eon_blue_1;
+  background-color: #084C7F;
+  border-color: #29C5FF;
 }
 
 button.suggested-action {
-  background-color: @eon_blue_2;
-  border-color: @eon_blue_1;
-  color: #FFFFFF;
+  background-color: #0066CC;
+  color: #E6F4FF;
+}
+
+button.suggested-action:hover {
+  background-color: #29C5FF;
+  color: #020B18;
 }
 
 entry {
-  background-color: rgba(2, 11, 24, 0.94);
-  color: @eon_fg_main;
-  border: 1px solid @eon_border;
+  background-color: #020B18;
+  color: #E6F4FF;
+  border: 1px solid rgba(41, 197, 255, 0.24);
   border-radius: 8px;
-  padding: 5px 10px;
+  padding: 6px 10px;
 }
 
 entry:focus {
-  border-color: @eon_blue_1;
-}
-
-menu,
-.menu,
-popover {
-  background-color: rgba(2, 11, 24, 0.95);
-  color: @eon_fg_main;
-  border: 1px solid @eon_border;
-  border-radius: 10px;
-  padding: 4px;
-}
-
-menuitem:hover {
-  background-color: rgba(0, 102, 204, 0.45);
-  border-radius: 6px;
-}
-
-/* Thunar estilo Windows 11 */
-.thunar toolbar {
-  background-color: @eon_header;
-  border-bottom: 1px solid @eon_border;
-  padding: 4px 8px;
-}
-
-.thunar notebook header {
-  background-color: @eon_bg_solid;
-  border-bottom: 1px solid @eon_border;
-}
-
-.thunar notebook tab {
-  background-color: rgba(6, 24, 48, 0.55);
-  color: @eon_fg_muted;
-  border: 1px solid transparent;
-  border-radius: 8px 8px 0 0;
-  padding: 5px 14px;
-  margin: 2px 2px 0 2px;
-}
-
-.thunar notebook tab:checked {
-  background-color: @eon_header;
-  color: @eon_fg_main;
-  border-color: @eon_border;
-  border-bottom-color: @eon_blue_1;
-}
-
-.thunar .sidebar,
-.thunar .shortcuts-pane {
-  background-color: rgba(4, 16, 34, 0.92);
-  border-right: 1px solid @eon_border;
-  padding: 6px;
-}
-
-.thunar .sidebar row {
-  border-radius: 8px;
-  padding: 5px 8px;
-  margin: 2px 4px;
-  color: @eon_fg_main;
-}
-
-.thunar .sidebar row:selected {
-  background-color: rgba(0, 102, 204, 0.50);
-  border-left: 3px solid @eon_blue_1;
-}
-
-.thunar .standard-view .view {
-  background-color: rgba(2, 11, 24, 0.90);
-  color: @eon_fg_main;
-}
-
-.thunar .standard-view .view:selected {
-  background-color: rgba(41, 197, 255, 0.24);
-  color: #FFFFFF;
-  border-radius: 6px;
-}
-
-/* Barra Superior estilo macOS e Área Inferior em 3 Ilhas */
-.xfce4-panel {
-  background-color: transparent;
-  color: @eon_fg_main;
-}
-
-#XfcePanelWindow.panel-top,
-.xfce4-panel.panel-top {
-  background-color: rgba(2, 11, 24, 0.86);
-  border-bottom: 1px solid @eon_border;
-  padding: 0 10px;
-}
-
-#XfcePanelWindow.panel-bottom,
-.xfce4-panel.panel-bottom {
-  background-color: transparent;
-}
-
-.xfce4-panel.panel-bottom #applicationsmenu-10,
-.xfce4-panel.panel-bottom #launcher-12,
-.xfce4-panel.panel-bottom #tasklist-13,
-.xfce4-panel.panel-bottom #clock-15,
-.xfce4-panel.panel-bottom #launcher-16 {
-  background-color: rgba(2, 11, 24, 0.90);
-  border: 1px solid @eon_border;
-  border-radius: 14px;
-  padding: 3px 8px;
-  margin: 3px 4px;
-}
-
-.xfce4-panel.panel-bottom button {
-  background-color: transparent;
-  border: 1px solid transparent;
-  border-radius: 10px;
-  padding: 3px;
-}
-
-.xfce4-panel.panel-bottom button:hover {
-  background-color: rgba(41, 197, 255, 0.18);
-  border-color: rgba(41, 197, 255, 0.40);
+  border-color: #29C5FF;
 }
