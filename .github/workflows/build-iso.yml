@@ -1,0 +1,49 @@
+name: Build EonLux Legacy ISO
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Tag/marco de referência (ex.: v0.1-alpha)"
+        required: false
+        default: "v0.1-alpha"
+
+jobs:
+  build-live-iso:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Instalar live-build e ferramentas de imagem
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            live-build \
+            debootstrap \
+            squashfs-tools \
+            xorriso \
+            grub-pc-bin \
+            grub-efi-amd64-bin \
+            mtools \
+            ca-certificates
+
+      - name: Preparar permissões dos scripts do live-build
+        run: |
+          chmod +x live-build/auto/config live-build/auto/build live-build/auto/clean
+          find live-build/config/hooks -type f -exec chmod +x {} +
+
+      - name: Configurar e compilar a ISO via live-build
+        working-directory: live-build
+        run: |
+          ./auto/config
+          sudo ./auto/build
+
+      - name: Gerar SHA256 da ISO
+        run: |
+          ISO_FILE=$(find live-build -maxdepth 1 -name "*.iso" | head -n 1)
+          test -n "${ISO_FILE}"
+          sha256sum "${ISO_FILE}" | tee live-build/SHA256SUMS.txt
