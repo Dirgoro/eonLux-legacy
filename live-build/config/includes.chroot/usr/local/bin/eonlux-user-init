@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+mkdir -p "${HOME}/Nuvem/Google Drive" "${HOME}/Nuvem/OneDrive" "${HOME}/.config/gtk-3.0"
+
+BOOKMARKS_FILE="${HOME}/.config/gtk-3.0/bookmarks"
+touch "${BOOKMARKS_FILE}"
+
+GDRIVE_URI="file://${HOME}/Nuvem/Google%20Drive Google Drive (Nuvem)"
+ONEDRIVE_URI="file://${HOME}/Nuvem/OneDrive OneDrive (Nuvem)"
+
+grep -Fq "Nuvem/Google%20Drive" "${BOOKMARKS_FILE}" || echo "${GDRIVE_URI}" >> "${BOOKMARKS_FILE}"
+grep -Fq "Nuvem/OneDrive" "${BOOKMARKS_FILE}" || echo "${ONEDRIVE_URI}" >> "${BOOKMARKS_FILE}"
