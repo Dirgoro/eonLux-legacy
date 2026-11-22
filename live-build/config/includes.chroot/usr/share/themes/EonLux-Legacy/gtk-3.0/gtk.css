@@ -1,0 +1,195 @@
+@define-color eon_bg_base rgba(2, 11, 24, 0.88);
+@define-color eon_bg_solid #020B18;
+@define-color eon_header rgba(6, 24, 48, 0.92);
+@define-color eon_blue_1 #29C5FF;
+@define-color eon_blue_2 #0066CC;
+@define-color eon_blue_3 #084C7F;
+@define-color eon_fg_main #E6F4FF;
+@define-color eon_fg_muted #8AB4D8;
+@define-color eon_border rgba(41, 197, 255, 0.24);
+
+* {
+  font-family: "Inter", "Noto Sans", sans-serif;
+  outline-color: @eon_blue_1;
+}
+
+window,
+dialog,
+.background {
+  background-color: @eon_bg_base;
+  color: @eon_fg_main;
+}
+
+headerbar {
+  background-color: @eon_header;
+  border-bottom: 1px solid @eon_border;
+  color: @eon_fg_main;
+  min-height: 34px;
+  padding: 0 8px;
+}
+
+headerbar button.titlebutton {
+  min-width: 14px;
+  min-height: 14px;
+  padding: 0;
+  margin: 0 4px;
+  border-radius: 999px;
+  border: none;
+  color: transparent;
+  box-shadow: none;
+}
+
+headerbar button.titlebutton.close { background-color: @eon_blue_1; }
+headerbar button.titlebutton.close:hover { background-color: #5CE0FF; }
+
+headerbar button.titlebutton.maximize { background-color: @eon_blue_2; }
+headerbar button.titlebutton.maximize:hover { background-color: #1A7FE6; }
+
+headerbar button.titlebutton.minimize { background-color: @eon_blue_3; }
+headerbar button.titlebutton.minimize:hover { background-color: #0D66AA; }
+
+button {
+  background-color: rgba(6, 24, 48, 0.90);
+  color: @eon_fg_main;
+  border: 1px solid @eon_border;
+  border-radius: 8px;
+  padding: 5px 12px;
+}
+
+button:hover {
+  background-color: rgba(8, 76, 127, 0.65);
+  border-color: @eon_blue_1;
+}
+
+button.suggested-action {
+  background-color: @eon_blue_2;
+  border-color: @eon_blue_1;
+  color: #FFFFFF;
+}
+
+entry {
+  background-color: rgba(2, 11, 24, 0.94);
+  color: @eon_fg_main;
+  border: 1px solid @eon_border;
+  border-radius: 8px;
+  padding: 5px 10px;
+}
+
+entry:focus {
+  border-color: @eon_blue_1;
+}
+
+menu,
+.menu,
+popover {
+  background-color: rgba(2, 11, 24, 0.95);
+  color: @eon_fg_main;
+  border: 1px solid @eon_border;
+  border-radius: 10px;
+  padding: 4px;
+}
+
+menuitem:hover {
+  background-color: rgba(0, 102, 204, 0.45);
+  border-radius: 6px;
+}
+
+/* Thunar estilo Windows 11 */
+.thunar toolbar {
+  background-color: @eon_header;
+  border-bottom: 1px solid @eon_border;
+  padding: 4px 8px;
+}
+
+.thunar notebook header {
+  background-color: @eon_bg_solid;
+  border-bottom: 1px solid @eon_border;
+}
+
+.thunar notebook tab {
+  background-color: rgba(6, 24, 48, 0.55);
+  color: @eon_fg_muted;
+  border: 1px solid transparent;
+  border-radius: 8px 8px 0 0;
+  padding: 5px 14px;
+  margin: 2px 2px 0 2px;
+}
+
+.thunar notebook tab:checked {
+  background-color: @eon_header;
+  color: @eon_fg_main;
+  border-color: @eon_border;
+  border-bottom-color: @eon_blue_1;
+}
+
+.thunar .sidebar,
+.thunar .shortcuts-pane {
+  background-color: rgba(4, 16, 34, 0.92);
+  border-right: 1px solid @eon_border;
+  padding: 6px;
+}
+
+.thunar .sidebar row {
+  border-radius: 8px;
+  padding: 5px 8px;
+  margin: 2px 4px;
+  color: @eon_fg_main;
+}
+
+.thunar .sidebar row:selected {
+  background-color: rgba(0, 102, 204, 0.50);
+  border-left: 3px solid @eon_blue_1;
+}
+
+.thunar .standard-view .view {
+  background-color: rgba(2, 11, 24, 0.90);
+  color: @eon_fg_main;
+}
+
+.thunar .standard-view .view:selected {
+  background-color: rgba(41, 197, 255, 0.24);
+  color: #FFFFFF;
+  border-radius: 6px;
+}
+
+/* Barra Superior estilo macOS e Área Inferior em 3 Ilhas */
+.xfce4-panel {
+  background-color: transparent;
+  color: @eon_fg_main;
+}
+
+#XfcePanelWindow.panel-top,
+.xfce4-panel.panel-top {
+  background-color: rgba(2, 11, 24, 0.86);
+  border-bottom: 1px solid @eon_border;
+  padding: 0 10px;
+}
+
+#XfcePanelWindow.panel-bottom,
+.xfce4-panel.panel-bottom {
+  background-color: transparent;
+}
+
+.xfce4-panel.panel-bottom #applicationsmenu-10,
+.xfce4-panel.panel-bottom #launcher-12,
+.xfce4-panel.panel-bottom #tasklist-13,
+.xfce4-panel.panel-bottom #clock-15,
+.xfce4-panel.panel-bottom #launcher-16 {
+  background-color: rgba(2, 11, 24, 0.90);
+  border: 1px solid @eon_border;
+  border-radius: 14px;
+  padding: 3px 8px;
+  margin: 3px 4px;
+}
+
+.xfce4-panel.panel-bottom button {
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 3px;
+}
+
+.xfce4-panel.panel-bottom button:hover {
+  background-color: rgba(41, 197, 255, 0.18);
+  border-color: rgba(41, 197, 255, 0.40);
+}
