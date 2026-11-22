@@ -2,8 +2,11 @@
 set -euo pipefail
 
 lb config noauto \
+  --mode debian \
   --architectures amd64 \
   --distribution trixie \
+  --linux-flavours "amd64" \
+  --linux-packages "linux-image" \
   --debian-installer none \
   --archive-areas "main contrib non-free non-free-firmware" \
   --parent-mirror-bootstrap "http://deb.debian.org/debian/" \
