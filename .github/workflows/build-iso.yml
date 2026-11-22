@@ -11,6 +11,9 @@ on:
 jobs:
   build-live-iso:
     runs-on: ubuntu-24.04
+    container:
+      image: debian:trixie
+      options: --privileged
     permissions:
       contents: write
 
@@ -18,12 +21,12 @@ jobs:
       - name: Checkout do repositório
         uses: actions/checkout@v4
 
-      - name: Instalar live-build e ferramentas de imagem (sem apt-file)
+      - name: Instalar live-build nativo do Debian 13 (Trixie)
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          sudo apt-get update
-          sudo -E apt-get install -y --no-install-recommends \
+          apt-get update
+          apt-get install -y --no-install-recommends \
             live-build \
             debootstrap \
             squashfs-tools \
@@ -32,7 +35,6 @@ jobs:
             grub-efi-amd64-bin \
             mtools \
             ca-certificates
-          sudo apt-get purge -y apt-file 2>/dev/null || true
 
       - name: Preparar permissões dos scripts do live-build
         run: |
@@ -44,9 +46,9 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          sudo rm -rf config/build config/bootstrap config/chroot config/binary config/source config/common
+          rm -rf config/build config/bootstrap config/chroot config/binary config/source config/common
           ./auto/config
-          if ! sudo -E ./auto/build; then
+          if ! ./auto/build; then
             echo "=== RESUMO DE ERROS DO APT/LIVE-BUILD ==="
             grep -E "^(E:|Err:|dpkg: error)" build-*.log | tail -n 30 || true
             exit 1
