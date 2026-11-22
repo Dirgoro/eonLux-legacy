@@ -43,6 +43,7 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
+          sudo ./auto/clean || true
           ./auto/config
           if ! sudo -E ./auto/build; then
             echo "=== RESUMO DE ERROS DO APT/LIVE-BUILD ==="
