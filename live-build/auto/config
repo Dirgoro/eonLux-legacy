@@ -6,13 +6,12 @@ lb config noauto \
   --architectures amd64 \
   --distribution trixie \
   --linux-flavours "amd64" \
-  --linux-packages "linux-image" \
+  --linux-packages "none" \
   --debian-installer none \
   --archive-areas "main contrib non-free non-free-firmware" \
   --parent-mirror-bootstrap "http://deb.debian.org/debian/" \
   --parent-mirror-chroot "http://deb.debian.org/debian/" \
   --parent-mirror-binary "http://deb.debian.org/debian/" \
-  --security false \
   --bootloader "grub-pc" \
   --binary-images iso-hybrid \
   --iso-application "EonLux Legacy" \
