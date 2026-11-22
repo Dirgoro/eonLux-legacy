@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PROVIDER="${1:-}"
+ACTION="${2:-mount}"
+
+case "${PROVIDER}" in
+  gdrive)
+    REMOTE="eonlux-gdrive:"
+    MOUNT_POINT="${HOME}/Nuvem/Google Drive"
+    ;;
+  onedrive)
+    REMOTE="eonlux-onedrive:"
+    MOUNT_POINT="${HOME}/Nuvem/OneDrive"
+    ;;
+  *)
+    echo "Uso: $0 <gdrive|onedrive> <mount|umount>" >&2
+    exit 1
+    ;;
+esac
+
+mkdir -p "${MOUNT_POINT}"
+
+if [ "${ACTION}" = "umount" ]; then
+  fusermount3 -u "${MOUNT_POINT}" 2>/dev/null || umount "${MOUNT_POINT}" 2>/dev/null || true
+  exit 0
+fi
+
+if ! rclone listremotes | grep -q "^${REMOTE}$"; then
+  notify-send -i system-file-manager "EonLux Nuvem" \
+    "Conta ${PROVIDER} ainda não conectada. Abra Configurações > Contas na Nuvem."
+  exit 1
+fi
+
+if mountpoint -q "${MOUNT_POINT}"; then
+  thunar "${MOUNT_POINT}" &
+  exit 0
+fi
+
+rclone mount "${REMOTE}" "${MOUNT_POINT}" \
+  --vfs-cache-mode minimal \
+  --vfs-cache-max-size 256M \
+  --dir-cache-time 5m \
+  --poll-interval 30s \
+  --daemon
+
+sleep 1
+thunar "${MOUNT_POINT}" &
