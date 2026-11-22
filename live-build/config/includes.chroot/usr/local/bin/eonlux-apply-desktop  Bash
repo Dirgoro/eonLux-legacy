@@ -1,0 +1,18 @@
+#!/bin/bash
+WALLPAPER="/usr/share/backgrounds/eonlux/eonlux-wallpaper-1.jpg"
+
+# Aguarda o xfdesktop inicializar os canais dos monitores conectados
+sleep 1
+
+if [ -f "$WALLPAPER" ]; then
+  for prop in $(xfconf-query -c xfce4-desktop -l 2>/dev/null | grep -E "last-image$|image-path$"); do
+    xfconf-query -c xfce4-desktop -p "$prop" -s "$WALLPAPER" 2>/dev/null || true
+  done
+  for style_prop in $(xfconf-query -c xfce4-desktop -l 2>/dev/null | grep "image-style$"); do
+    xfconf-query -c xfce4-desktop -p "$style_prop" -s 5 2>/dev/null || true
+  done
+fi
+
+# Garante o layout de botões Fechar -> Maximizar -> Minimizar (|CHM)
+xfconf-query -c xfwm4 -p /general/button_layout -s "|CHM" 2>/dev/null || true
+xfconf-query -c xfwm4 -p /general/theme -s "EonLux-Dark" 2>/dev/null || true
