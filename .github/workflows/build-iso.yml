@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       version_tag:
-        description: 'Versão da build (ex: v0.1-alpha)'
+        description: 'Versão da build (ex: v0.2-alpha)'
         required: true
-        default: 'v0.1-alpha'
+        default: 'v0.2-alpha'
       iso_compression:
         description: 'Compressão SquashFS (zstd = rápido/equilibrado, xz = menor tamanho)'
         required: true
@@ -25,7 +25,10 @@ permissions:
 jobs:
   build-iso:
     name: Construir ISO Debian 13 (trixie) amd64
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    container:
+      image: debian:trixie
+      options: --privileged
 
     steps:
       - name: Checkout do repositório
@@ -44,62 +47,54 @@ jobs:
           echo "iso_name=${ISO_NAME}" >> "$GITHUB_OUTPUT"
           echo "Versão alvo: ${VERSION} | Arquivo: ${ISO_NAME}"
 
-      - name: Liberar espaço em disco no runner
+      - name: Instalar live-build nativo do Debian 13 (Trixie) e ferramentas híbridas
+        env:
+          DEBIAN_FRONTEND: noninteractive
         run: |
-          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
-          sudo docker system prune -af || true
-          df -h /
-
-      - name: Instalar dependências do Debian live-build e bootloader híbrido
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
+          apt-get update
+          apt-get install -y --no-install-recommends \
             live-build \
             debootstrap \
+            squashfs-tools \
             xorriso \
-            isolinux \
-            syslinux-common \
-            syslinux-efi \
             grub-pc-bin \
             grub-efi-amd64-bin \
             mtools \
             dosfstools \
-            squashfs-tools \
             zstd \
             xz-utils \
-            ca-certificates \
-            curl
+            ca-certificates
 
-          # Garante suporte ao codinome trixie no debootstrap caso o host seja anterior
-          if [[ ! -e /usr/share/debootstrap/scripts/trixie ]]; then
-            sudo ln -s /usr/share/debootstrap/scripts/sid /usr/share/debootstrap/scripts/trixie
-          fi
-
-      - name: Executar auditoria pré-build do repositório
+      - name: Preparar permissões dos scripts e hooks
         run: |
-          chmod +x live-build/scripts/audit-repo.sh || true
-          if [[ -f live-build/scripts/audit-repo.sh ]]; then
-            ./live-build/scripts/audit-repo.sh
-          else
-            find live-build/auto -type f -exec chmod +x {} +
-            find live-build/config -type f \( -name "*.hook.*" -o -name "*.sh" \) -exec chmod +x {} +
+          chmod +x live-build/auto/config live-build/auto/build live-build/auto/clean
+          if [[ -d live-build/config/hooks ]]; then
+            find live-build/config/hooks -type f -exec chmod +x {} +
+          fi
+          if [[ -d live-build/config/includes.chroot/usr/local/bin ]]; then
+            find live-build/config/includes.chroot/usr/local/bin -type f -exec chmod +x {} +
           fi
 
-      - name: Configurar e construir a imagem ISO (lb config && lb build)
+      - name: Configurar e compilar a ISO via live-build
         working-directory: live-build
+        env:
+          DEBIAN_FRONTEND: noninteractive
         run: |
-          sudo lb clean --purge || true
-          sudo lb config
-          sudo lb build 2>&1 | tee build.log
+          rm -rf config/build config/bootstrap config/chroot config/binary config/source config/common
+          ./auto/config --compression "${{ github.event.inputs.iso_compression || 'zstd' }}"
+          if ! ./auto/build; then
+            echo "=== RESUMO DE ERROS DO APT/LIVE-BUILD ==="
+            grep -E "^(E:|Err:|dpkg: error)" build*.log | tail -n 30 || true
+            exit 1
+          fi
 
       - name: Verificar ISO gerada e calcular SHA256
-        id: verify
         working-directory: live-build
         run: |
           GENERATED_ISO=$(find . -maxdepth 1 -type f -name "*.iso" | head -n 1)
           if [[ -z "$GENERATED_ISO" ]]; then
             echo "ERRO CRÍTICO: Nenhuma ISO foi gerada pelo live-build!"
-            tail -n 100 build.log
+            tail -n 80 build.log || true
             exit 1
           fi
 
@@ -108,7 +103,6 @@ jobs:
           cd ../dist
           sha256sum "${{ steps.meta.outputs.iso_name }}" > "${{ steps.meta.outputs.iso_name }}.sha256"
 
-          echo "=== Verificação da tabela ISO9660/El Torito ==="
           xorriso -indev "${{ steps.meta.outputs.iso_name }}" -toc
           ls -lh
           cat "${{ steps.meta.outputs.iso_name }}.sha256"
