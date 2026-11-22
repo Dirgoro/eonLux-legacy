@@ -2,4 +2,4 @@
 set -euo pipefail
 
 LOG_FILE="build-$(date +%Y%m%d-%H%M%S).log"
-lb build "$@" 2>&1 | tee "${LOG_FILE}"
+lb build noauto "${@}" 2>&1 | tee "${LOG_FILE}"
