@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Launchpad
+Comment=Lançador de aplicativos do EonLux Legacy
+Exec=xfce4-appfinder
+Icon=eonlux-launchpad
+Categories=Utility;X-EonLux-Exclusive;
+StartupNotify=false
