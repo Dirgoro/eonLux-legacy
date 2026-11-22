@@ -1,0 +1,187 @@
+/* EonLux Legacy - Tema GTK3 Oficial (Paleta #020B18 / #061830 + 3 Tons de Azul) */
+
+@define-color bg_base #020B18;
+@define-color bg_elevated #061830;
+@define-color blue_1 #29C5FF;
+@define-color blue_2 #0066CC;
+@define-color blue_3 #084C7F;
+@define-color text_primary #E6F4FF;
+@define-color text_secondary #8AB4D8;
+@define-color border_subtle rgba(41, 197, 255, 0.24);
+
+* {
+  font-family: "Inter", "Noto Sans", sans-serif;
+  outline-color: @blue_1;
+}
+
+window,
+.background {
+  background-color: rgba(2, 11, 24, 0.94);
+  color: @text_primary;
+}
+
+/* Barra de menu (corrige Arquivo Editar Ver Ir Marcadores Ajuda colados) */
+menubar,
+.menubar {
+  background-color: @bg_elevated;
+  color: @text_primary;
+  border-bottom: 1px solid @border_subtle;
+  padding: 2px 6px;
+}
+
+menubar > menuitem,
+.menubar > menuitem {
+  padding: 5px 11px;
+  margin: 0 2px;
+  border-radius: 6px;
+  color: @text_primary;
+}
+
+menubar > menuitem:hover,
+.menubar > menuitem:hover {
+  background-color: rgba(41, 197, 255, 0.18);
+  color: #FFFFFF;
+}
+
+menu,
+.menu,
+.context-menu {
+  background-color: rgba(6, 24, 48, 0.96);
+  color: @text_primary;
+  border: 1px solid @border_subtle;
+  border-radius: 10px;
+  padding: 6px;
+}
+
+menu menuitem,
+.menu menuitem {
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+menu menuitem:hover,
+.menu menuitem:hover {
+  background-color: @blue_2;
+  color: #FFFFFF;
+}
+
+/* Barra de ferramentas e botões */
+toolbar,
+.toolbar,
+headerbar {
+  background-color: @bg_elevated;
+  color: @text_primary;
+  border-bottom: 1px solid @border_subtle;
+  padding: 4px 8px;
+}
+
+button {
+  background-color: rgba(8, 76, 127, 0.45);
+  color: @text_primary;
+  border: 1px solid @border_subtle;
+  border-radius: 8px;
+  padding: 5px 12px;
+  transition: all 120ms ease;
+}
+
+button:hover {
+  background-color: rgba(0, 102, 204, 0.65);
+  border-color: @blue_1;
+}
+
+button:active,
+button:checked {
+  background-color: @blue_2;
+  color: #FFFFFF;
+}
+
+entry {
+  background-color: rgba(2, 11, 24, 0.90);
+  color: @text_primary;
+  border: 1px solid @border_subtle;
+  border-radius: 8px;
+  padding: 5px 10px;
+}
+
+entry:focus {
+  border-color: @blue_1;
+}
+
+/* Thunar estilo Windows 11 */
+.thunar toolbar {
+  background-color: @bg_elevated;
+  padding: 6px 8px;
+}
+
+.thunar .sidebar,
+.thunar scrolledwindow.sidebar treeview {
+  background-color: rgba(4, 17, 36, 0.95);
+  color: @text_primary;
+  border-right: 1px solid @border_subtle;
+}
+
+.thunar .sidebar row:selected,
+.thunar treeview:selected {
+  background-color: rgba(0, 102, 204, 0.55);
+  color: #FFFFFF;
+  border-radius: 6px;
+}
+
+.thunar notebook > header {
+  background-color: @bg_base;
+  border-bottom: 1px solid @border_subtle;
+}
+
+.thunar notebook > header tab {
+  background-color: rgba(6, 24, 48, 0.65);
+  color: @text_secondary;
+  border: 1px solid transparent;
+  border-radius: 8px 8px 0 0;
+  padding: 5px 14px;
+  margin: 2px 2px 0 2px;
+}
+
+.thunar notebook > header tab:checked {
+  background-color: @bg_elevated;
+  color: @text_primary;
+  border-color: @border_subtle;
+  border-bottom-color: @blue_1;
+}
+
+/* Painéis XFCE (Barra Superior macOS + 3 Ilhas Inferiores) */
+.xfce4-panel {
+  background-color: rgba(2, 11, 24, 0.86);
+  color: @text_primary;
+  font-weight: 500;
+}
+
+#XfcePanelWindow.panel-2,
+#XfcePanelWindow.panel-3,
+#XfcePanelWindow.panel-4 {
+  border-radius: 14px;
+  border: 1px solid rgba(41, 197, 255, 0.30);
+}
+
+.xfce4-panel button {
+  background-color: transparent;
+  border: none;
+  border-radius: 10px;
+  padding: 3px 8px;
+  color: @text_primary;
+}
+
+.xfce4-panel button:hover {
+  background-color: rgba(41, 197, 255, 0.18);
+}
+
+/* Scrollbars finas */
+scrollbar slider {
+  background-color: rgba(138, 180, 216, 0.35);
+  border-radius: 99px;
+  min-width: 6px;
+  min-height: 6px;
+}
+
+scrollbar slider:hover {
+  background-color: @blue_1;
+}
