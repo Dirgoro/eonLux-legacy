@@ -5,7 +5,7 @@ xfce4-pulseaudio-plugin
 xfce4-power-manager
 xfce4-screenshooter
 xfce4-notifyd
-xfce-polkit
+lxpolkit
 lightdm
 lightdm-gtk-greeter
 thunar
