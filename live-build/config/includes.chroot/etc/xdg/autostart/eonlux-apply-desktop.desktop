@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=EonLux Desktop Visual Applier
+Exec=/usr/local/bin/eonlux-apply-desktop
+OnlyShowIn=XFCE;
+RunHook=0
+StartupNotify=false
+Terminal=false
+Hidden=false
