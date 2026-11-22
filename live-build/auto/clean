@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-lb clean --purge "$@"
+lb clean noauto --purge "${@}"
 rm -f build-*.log
