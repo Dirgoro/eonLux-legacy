@@ -1,18 +1,43 @@
 #!/bin/bash
 WALLPAPER="/usr/share/backgrounds/eonlux/eonlux-wallpaper-1.jpg"
 
-# Aguarda o xfdesktop inicializar os canais dos monitores conectados
-sleep 1
-
-if [ -f "$WALLPAPER" ]; then
-  for prop in $(xfconf-query -c xfce4-desktop -l 2>/dev/null | grep -E "last-image$|image-path$"); do
-    xfconf-query -c xfce4-desktop -p "$prop" -s "$WALLPAPER" 2>/dev/null || true
-  done
-  for style_prop in $(xfconf-query -c xfce4-desktop -l 2>/dev/null | grep "image-style$"); do
-    xfconf-query -c xfce4-desktop -p "$style_prop" -s 5 2>/dev/null || true
-  done
+# Fallback caso o wallpaper tenha sido colocado com outro nome em /usr/share/backgrounds/eonlux
+if [ ! -f "$WALLPAPER" ]; then
+  FIRST_WALL=$(find /usr/share/backgrounds/eonlux -type f \( -iname "*.jpg" -o -iname "*.png" \) | sort | head -n 1)
+  [ -n "$FIRST_WALL" ] && WALLPAPER="$FIRST_WALL"
 fi
 
-# Garante o layout de botões Fechar -> Maximizar -> Minimizar (|CHM)
+# Detecta saídas Xrandr conectadas (ex: Virtual1, eDP-1, LVDS-1)
+MONITORS=$(xrandr --query 2>/dev/null | awk '/ connected/{print $1}')
+
+apply_wallpaper() {
+  if [ -f "$WALLPAPER" ]; then
+    # Cria propriedades explicitamente para cada monitor conectado + monitor0
+    for mon in monitor0 $MONITORS; do
+      for ws in workspace0 workspace1; do
+        xfconf-query -c xfce4-desktop -p "/backdrop/screen0/${mon}/${ws}/last-image" -n -t string -s "$WALLPAPER" 2>/dev/null || \
+        xfconf-query -c xfce4-desktop -p "/backdrop/screen0/${mon}/${ws}/last-image" -s "$WALLPAPER" 2>/dev/null || true
+
+        xfconf-query -c xfce4-desktop -p "/backdrop/screen0/${mon}/${ws}/image-style" -n -t int -s 5 2>/dev/null || \
+        xfconf-query -c xfce4-desktop -p "/backdrop/screen0/${mon}/${ws}/image-style" -s 5 2>/dev/null || true
+      done
+    done
+
+    # Atualiza também qualquer propriedade já existente no xfconf
+    for prop in $(xfconf-query -c xfce4-desktop -l 2>/dev/null | grep -E "last-image$|image-path$"); do
+      xfconf-query -c xfce4-desktop -p "$prop" -s "$WALLPAPER" 2>/dev/null || true
+    done
+  fi
+}
+
+# Aplica em duas passagens para vencer a inicialização assíncrona do xfdesktop na VM
+sleep 1
+apply_wallpaper
+xfdesktop --reload 2>/dev/null || true
+sleep 2
+apply_wallpaper
+xfdesktop --reload 2>/dev/null || true
+
+# Garante tema e botões Fechar -> Maximizar -> Minimizar (|CHM)
 xfconf-query -c xfwm4 -p /general/button_layout -s "|CHM" 2>/dev/null || true
 xfconf-query -c xfwm4 -p /general/theme -s "EonLux-Dark" 2>/dev/null || true
