@@ -18,7 +18,7 @@ jobs:
       - name: Checkout do repositório
         uses: actions/checkout@v4
 
-      - name: Instalar live-build e ferramentas de imagem
+      - name: Instalar live-build e ferramentas de imagem (sem apt-file)
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
@@ -32,19 +32,19 @@ jobs:
             grub-efi-amd64-bin \
             mtools \
             ca-certificates
+          sudo apt-get purge -y apt-file 2>/dev/null || true
 
-      - name: Preparar permissões e limpar qualquer referência a trixie/updates
+      - name: Preparar permissões dos scripts do live-build
         run: |
           chmod +x live-build/auto/config live-build/auto/build live-build/auto/clean
           find live-build/config/hooks -type f -exec chmod +x {} +
-          grep -rn "trixie/updates" live-build/config/ || true
 
       - name: Configurar e compilar a ISO via live-build
         working-directory: live-build
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          sudo ./auto/clean || true
+          sudo rm -rf config/build config/bootstrap config/chroot config/binary config/source config/common
           ./auto/config
           if ! sudo -E ./auto/build; then
             echo "=== RESUMO DE ERROS DO APT/LIVE-BUILD ==="
