@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-mkdir -p /etc/skel/.config/gtk-3.0
+mkdir -p /etc/skel/.config/gtk-3.0 /etc/xdg/gtk-3.0
 cat <<'EOF' > /etc/skel/.config/gtk-3.0/settings.ini
 [Settings]
 gtk-theme-name=EonLux-Legacy
@@ -12,6 +12,15 @@ gtk-xft-antialias=1
 gtk-xft-rgba=rgb
 EOF
 
+cp -f /etc/skel/.config/gtk-3.0/settings.ini /etc/xdg/gtk-3.0/settings.ini
+
+mkdir -p /etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml
+if [ -f /etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml ]; then
+  cp -f /etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml \
+        /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
+fi
+
 chmod 644 /usr/local/share/applications/eonlux-topbar-brand.desktop 2>/dev/null || true
 chmod 644 /usr/local/share/applications/eonlux-topbar-search.desktop 2>/dev/null || true
 chmod 644 /etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml 2>/dev/null || true
+chmod 644 /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml 2>/dev/null || true
