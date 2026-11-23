@@ -2,7 +2,7 @@
 Version=1.0
 Type=Application
 Name=EonLux Legacy
-Comment=EonLux Legacy Desktop
+Comment=EonLux Legacy
 Exec=xfce4-about
 Icon=/usr/local/share/eonlux/assets/logo.png
 Terminal=false
