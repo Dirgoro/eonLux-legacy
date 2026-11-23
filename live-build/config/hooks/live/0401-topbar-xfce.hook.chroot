@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -e
+
+mkdir -p /etc/skel/.config/gtk-3.0
+cat <<'EOF' > /etc/skel/.config/gtk-3.0/settings.ini
+[Settings]
+gtk-theme-name=EonLux-Legacy
+gtk-icon-theme-name=Tango
+gtk-font-name=Inter 10
+gtk-cursor-theme-name=Adwaita
+gtk-xft-antialias=1
+gtk-xft-rgba=rgb
+EOF
+
+chmod 644 /usr/local/share/applications/eonlux-topbar-brand.desktop 2>/dev/null || true
+chmod 644 /etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml 2>/dev/null || true
