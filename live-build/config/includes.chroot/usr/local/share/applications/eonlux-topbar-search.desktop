@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Pesquisar
+Comment=Pesquisar aplicativos e comandos
+Exec=xfce4-appfinder
+Icon=system-search
+Terminal=false
+Categories=System;
+NoDisplay=false
