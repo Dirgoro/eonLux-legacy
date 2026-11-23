@@ -1,161 +1,52 @@
-/* EonLux Legacy - Tema GTK3 (v0.2-alpha)
-   Paleta base: #020B18 / #061830 | Texto: #E6F4FF / #8AB4D8
-   3 tons de azul: #29C5FF, #0066CC, #084C7F
+/* EonLux Legacy - Estilo da Barra Superior (GTK3)
+   Cores oficiais: #020B18 / #061830 | Texto: #E6F4FF / #8AB4D8 | Destaque: #29C5FF
 */
 
-@define-color bg_dark #020B18;
-@define-color bg_panel #061830;
-@define-color fg_primary #E6F4FF;
-@define-color fg_secondary #8AB4D8;
-@define-color accent_light #29C5FF;
-@define-color accent_mid #0066CC;
-@define-color accent_dark #084C7F;
-@define-color border_subtle rgba(41, 197, 255, 0.24);
+@define-color bg_topbar rgba(2, 11, 24, 0.86);
+@define-color bg_topbar_hover rgba(6, 24, 48, 0.92);
+@define-color fg_topbar #E6F4FF;
+@define-color fg_topbar_muted #8AB4D8;
+@define-color border_topbar rgba(41, 197, 255, 0.24);
 
-* {
-  font-family: "Inter", "Noto Sans", sans-serif;
-}
-
-window,
-.background {
-  background-color: rgba(2, 11, 24, 0.90);
-  color: @fg_primary;
-}
-
-headerbar,
-.titlebar {
-  background-color: rgba(6, 24, 48, 0.94);
-  color: @fg_primary;
-  border-bottom: 1px solid @border_subtle;
-}
-
-/* Ordem visual da esquerda para a direita:
-   1. Minimizar (#084C7F)
-   2. Maximizar (#0066CC)
-   3. Fechar (#29C5FF)
-*/
-button.titlebutton.minimize,
-.titlebar button.titlebutton.minimize,
-headerbar button.titlebutton.minimize {
-  background-color: #084C7F;
-  background-image: none;
-  color: #E6F4FF;
-  border: 1px solid rgba(230, 244, 255, 0.25);
-  border-radius: 999px;
-  min-width: 14px;
-  min-height: 14px;
-  padding: 0;
-  margin: 0 3px;
-}
-
-button.titlebutton.maximize,
-.titlebar button.titlebutton.maximize,
-headerbar button.titlebutton.maximize {
-  background-color: #0066CC;
-  background-image: none;
-  color: #E6F4FF;
-  border: 1px solid rgba(230, 244, 255, 0.25);
-  border-radius: 999px;
-  min-width: 14px;
-  min-height: 14px;
-  padding: 0;
-  margin: 0 3px;
-}
-
-button.titlebutton.close,
-.titlebar button.titlebutton.close,
-headerbar button.titlebutton.close {
-  background-color: #29C5FF;
-  background-image: none;
-  color: #020B18;
-  border: 1px solid rgba(230, 244, 255, 0.35);
-  border-radius: 999px;
-  min-width: 14px;
-  min-height: 14px;
-  padding: 0;
-  margin: 0 3px;
-}
-
-button.titlebutton.minimize:hover {
-  background-color: #0c63a6;
-}
-
-button.titlebutton.maximize:hover {
-  background-color: #0077ee;
-}
-
-button.titlebutton.close:hover {
-  background-color: #56d2ff;
-}
-
-/* Barra superior fixa translúcida */
 xfce4-panel#XfcePanelWindow-1 {
-  background-color: rgba(2, 11, 24, 0.85);
-  border-bottom: 1px solid rgba(41, 197, 255, 0.24);
-  color: #E6F4FF;
-}
-
-/* 3 Ilhas inferiores com ocultação inteligente e visual translúcido */
-xfce4-panel#XfcePanelWindow-2,
-xfce4-panel#XfcePanelWindow-3,
-xfce4-panel#XfcePanelWindow-4 {
-  background-color: rgba(6, 24, 48, 0.90);
-  border: 1px solid rgba(41, 197, 255, 0.24);
-  border-radius: 14px;
-  padding: 2px 10px;
-  color: #E6F4FF;
-}
-
-xfce4-panel button {
-  background: transparent;
-  border: none;
+  background-color: @bg_topbar;
+  background-image: none;
+  border-bottom: 1px solid @border_topbar;
+  color: @fg_topbar;
+  font-family: "Inter", "Noto Sans", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
   box-shadow: none;
-  color: #E6F4FF;
-  padding: 2px 4px;
 }
 
-xfce4-panel button:hover {
-  background-color: rgba(41, 197, 255, 0.14);
-  border-radius: 10px;
+xfce4-panel#XfcePanelWindow-1 * {
+  font-family: "Inter", "Noto Sans", sans-serif;
+  color: @fg_topbar;
 }
 
-xfce4-panel button image {
-  min-width: 30px;
-  min-height: 30px;
+xfce4-panel#XfcePanelWindow-1 button,
+xfce4-panel#XfcePanelWindow-1 .xfce4-clock-plugin {
+  background: transparent;
+  background-image: none;
+  border: none;
+  border-radius: 6px;
+  box-shadow: none;
+  padding: 0 8px;
+  margin: 2px 2px;
+  color: @fg_topbar;
 }
 
-/* Botões e entradas padrão */
-button {
-  background-color: #061830;
-  color: #E6F4FF;
-  border: 1px solid rgba(41, 197, 255, 0.24);
-  border-radius: 8px;
-  padding: 6px 12px;
+xfce4-panel#XfcePanelWindow-1 button:hover {
+  background-color: @bg_topbar_hover;
+  color: #29C5FF;
 }
 
-button:hover {
-  background-color: #084C7F;
-  border-color: #29C5FF;
+xfce4-panel#XfcePanelWindow-1 separator {
+  color: transparent;
+  background: transparent;
 }
 
-button.suggested-action {
-  background-color: #0066CC;
-  color: #E6F4FF;
-}
-
-button.suggested-action:hover {
-  background-color: #29C5FF;
-  color: #020B18;
-}
-
-entry {
-  background-color: #020B18;
-  color: #E6F4FF;
-  border: 1px solid rgba(41, 197, 255, 0.24);
-  border-radius: 8px;
-  padding: 6px 10px;
-}
-
-entry:focus {
-  border-color: #29C5FF;
+xfce4-panel#XfcePanelWindow-1 .systray image,
+xfce4-panel#XfcePanelWindow-1 button image {
+  -gtk-icon-shadow: none;
 }
