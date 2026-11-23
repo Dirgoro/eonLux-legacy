@@ -1,18 +1,19 @@
-/* EonLux Legacy - Estilo da Barra Superior (GTK3)
-   Cores oficiais: #020B18 / #061830 | Texto: #E6F4FF / #8AB4D8 | Destaque: #29C5FF
+/* EonLux Legacy - Barra Superior (GTK3)
+   Paleta: #020B18 / #061830 | Texto: #E6F4FF / #8AB4D8 | Destaque: #29C5FF
+   Fonte: Inter / Noto Sans
 */
 
-@define-color bg_topbar rgba(2, 11, 24, 0.86);
-@define-color bg_topbar_hover rgba(6, 24, 48, 0.92);
-@define-color fg_topbar #E6F4FF;
-@define-color fg_topbar_muted #8AB4D8;
-@define-color border_topbar rgba(41, 197, 255, 0.24);
+@define-color topbar_bg rgba(2, 11, 24, 0.86);
+@define-color topbar_hover rgba(6, 24, 48, 0.94);
+@define-color topbar_fg #E6F4FF;
+@define-color topbar_muted #8AB4D8;
+@define-color topbar_border rgba(41, 197, 255, 0.24);
 
 xfce4-panel#XfcePanelWindow-1 {
-  background-color: @bg_topbar;
+  background-color: @topbar_bg;
   background-image: none;
-  border-bottom: 1px solid @border_topbar;
-  color: @fg_topbar;
+  border-bottom: 1px solid @topbar_border;
+  color: @topbar_fg;
   font-family: "Inter", "Noto Sans", sans-serif;
   font-size: 12px;
   font-weight: 500;
@@ -21,7 +22,7 @@ xfce4-panel#XfcePanelWindow-1 {
 
 xfce4-panel#XfcePanelWindow-1 * {
   font-family: "Inter", "Noto Sans", sans-serif;
-  color: @fg_topbar;
+  color: @topbar_fg;
 }
 
 xfce4-panel#XfcePanelWindow-1 button,
@@ -31,14 +32,27 @@ xfce4-panel#XfcePanelWindow-1 .xfce4-clock-plugin {
   border: none;
   border-radius: 6px;
   box-shadow: none;
-  padding: 0 8px;
-  margin: 2px 2px;
-  color: @fg_topbar;
+  padding: 0 7px;
+  margin: 2px 1px;
+  min-height: 22px;
+  color: @topbar_fg;
 }
 
 xfce4-panel#XfcePanelWindow-1 button:hover {
-  background-color: @bg_topbar_hover;
+  background-color: @topbar_hover;
   color: #29C5FF;
+}
+
+xfce4-panel#XfcePanelWindow-1 button label {
+  font-size: 12px;
+  font-weight: 500;
+  color: @topbar_fg;
+}
+
+xfce4-panel#XfcePanelWindow-1 .xfce4-clock-plugin label {
+  font-size: 12px;
+  font-weight: 500;
+  color: @topbar_fg;
 }
 
 xfce4-panel#XfcePanelWindow-1 separator {
