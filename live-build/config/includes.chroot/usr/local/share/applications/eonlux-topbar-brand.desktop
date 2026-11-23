@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=EonLux Legacy
+Comment=EonLux Legacy Desktop
+Exec=xfce4-about
+Icon=/usr/local/share/eonlux/assets/logo.png
+Terminal=false
+Categories=System;
+NoDisplay=false
