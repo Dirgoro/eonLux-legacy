@@ -43,12 +43,7 @@ xfce4-panel#XfcePanelWindow-1 button:hover {
   color: #29C5FF;
 }
 
-xfce4-panel#XfcePanelWindow-1 button label {
-  font-size: 12px;
-  font-weight: 500;
-  color: @topbar_fg;
-}
-
+xfce4-panel#XfcePanelWindow-1 button label,
 xfce4-panel#XfcePanelWindow-1 .xfce4-clock-plugin label {
   font-size: 12px;
   font-weight: 500;
