@@ -5,7 +5,6 @@
     <value type="int" value="1"/>
   </property>
 
-  <!-- Barra superior fixa translúcida (inspirada na imagem 2 e paleta EonLux Legacy) -->
   <property name="panel-1" type="empty">
     <property name="position" type="string" value="p=6;x=0;y=0"/>
     <property name="position-locked" type="bool" value="true"/>
@@ -23,6 +22,7 @@
       <value type="int" value="5"/>
       <value type="int" value="6"/>
       <value type="int" value="7"/>
+      <value type="int" value="8"/>
     </property>
   </property>
 
@@ -34,7 +34,7 @@
       </property>
     </property>
 
-    <!-- Espaçador expansível para alinhar os itens seguintes à direita -->
+    <!-- Espaçador expansível para empurrar os itens seguintes para a direita -->
     <property name="plugin-2" type="string" value="separator">
       <property name="expand" type="bool" value="true"/>
       <property name="style" type="uint" value="1"/>
@@ -46,27 +46,33 @@
       <property name="display-style" type="uint" value="0"/>
     </property>
 
-    <!-- Direita 2 e 3: Rede e Som (via bandeja do sistema / plugins ativos) -->
+    <!-- Direita 2: Rede (via bandeja do sistema / nm-applet) -->
     <property name="plugin-4" type="string" value="systray">
       <property name="square-icons" type="bool" value="true"/>
       <property name="icon-size" type="uint" value="16"/>
     </property>
 
+    <!-- Direita 3: Som (pulseaudio plugin) -->
+    <property name="plugin-5" type="string" value="pulseaudio">
+      <property name="enable-keyboard-shortcuts" type="bool" value="true"/>
+      <property name="show-notifications" type="bool" value="false"/>
+    </property>
+
     <!-- Direita 4: Pesquisar -->
-    <property name="plugin-5" type="string" value="launcher">
+    <property name="plugin-6" type="string" value="launcher">
       <property name="items" type="array">
         <value type="string" value="eonlux-topbar-search.desktop"/>
       </property>
     </property>
 
     <!-- Direita 5: Data (dia e mês, ex.: 23 novembro) -->
-    <property name="plugin-6" type="string" value="clock">
+    <property name="plugin-7" type="string" value="clock">
       <property name="mode" type="uint" value="2"/>
       <property name="digital-format" type="string" value="%d %B"/>
     </property>
 
     <!-- Direita 6: Hora no formato 24h -->
-    <property name="plugin-7" type="string" value="clock">
+    <property name="plugin-8" type="string" value="clock">
       <property name="mode" type="uint" value="2"/>
       <property name="digital-format" type="string" value="%H:%M"/>
     </property>
