@@ -32,8 +32,8 @@ xfce4-panel#XfcePanelWindow-1 .xfce4-clock-plugin {
   border: none;
   border-radius: 6px;
   box-shadow: none;
-  padding: 0 7px;
-  margin: 2px 1px;
+  padding: 0 8px;
+  margin: 2px 2px;
   min-height: 22px;
   color: @topbar_fg;
 }
