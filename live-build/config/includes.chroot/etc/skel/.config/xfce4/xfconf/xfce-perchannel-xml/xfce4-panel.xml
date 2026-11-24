@@ -20,9 +20,6 @@
       <value type="int" value="3"/>
       <value type="int" value="4"/>
       <value type="int" value="5"/>
-      <value type="int" value="6"/>
-      <value type="int" value="7"/>
-      <value type="int" value="8"/>
     </property>
   </property>
 
@@ -34,47 +31,29 @@
       </property>
     </property>
 
-    <!-- Espaçador expansível para empurrar os itens seguintes para a direita -->
+    <!-- Espaçador expansível -->
     <property name="plugin-2" type="string" value="separator">
       <property name="expand" type="bool" value="true"/>
-      <property name="style" type="uint" value="1"/>
+      <property name="style" type="uint" value="0"/>
     </property>
 
-    <!-- Direita 1: Teclado (idioma) -->
-    <property name="plugin-3" type="string" value="xkb">
-      <property name="display-type" type="uint" value="2"/>
-      <property name="display-style" type="uint" value="0"/>
-    </property>
-
-    <!-- Direita 2: Rede (bandeja do sistema) -->
-    <property name="plugin-4" type="string" value="systray">
+    <!-- Direita: Bandeja do sistema (rede, som, etc.) -->
+    <property name="plugin-3" type="string" value="systray">
       <property name="square-icons" type="bool" value="true"/>
       <property name="icon-size" type="uint" value="16"/>
     </property>
 
-    <!-- Direita 3: Som -->
-    <property name="plugin-5" type="string" value="pulseaudio">
-      <property name="enable-keyboard-shortcuts" type="bool" value="true"/>
-      <property name="show-notifications" type="bool" value="false"/>
-    </property>
-
-    <!-- Direita 4: Pesquisar -->
-    <property name="plugin-6" type="string" value="launcher">
+    <!-- Direita: Pesquisar -->
+    <property name="plugin-4" type="string" value="launcher">
       <property name="items" type="array">
         <value type="string" value="eonlux-topbar-search.desktop"/>
       </property>
     </property>
 
-    <!-- Direita 5: Data (dia e mês, ex.: 23 novembro) -->
-    <property name="plugin-7" type="string" value="clock">
+    <!-- Direita: Data e Hora no formato 24h -->
+    <property name="plugin-5" type="string" value="clock">
       <property name="mode" type="uint" value="2"/>
-      <property name="digital-format" type="string" value="%d %B"/>
-    </property>
-
-    <!-- Direita 6: Hora no formato 24h -->
-    <property name="plugin-8" type="string" value="clock">
-      <property name="mode" type="uint" value="2"/>
-      <property name="digital-format" type="string" value="%H:%M"/>
+      <property name="digital-format" type="string" value="%d %B  %H:%M"/>
     </property>
   </property>
 </channel>
